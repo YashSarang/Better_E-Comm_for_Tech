@@ -1,11 +1,11 @@
 import React from 'react'
 
-const Checkout = () => {
+const Cart = () => {
   return (
     <h1 className="text-center text-4xl font-bold font-serif text-fav1-200">
-        <div>Checkout Page</div>
+        <div>Cart is Empty</div>
     </h1>
   )
 }
 
-export default Checkout
+export default Cart

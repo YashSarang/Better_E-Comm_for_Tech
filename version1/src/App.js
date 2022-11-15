@@ -3,14 +3,24 @@ import { MantineProvider } from '@mantine/core';
 
 import './App.css';
 import Home from './pages/Home';
+import Market from "./pages/Market";
+import AboutUs from "./pages/AboutUs";
+import Checkout from "./pages/Checkout";
+import Navbar from "./components/Navbar";
+import Cart from "./pages/Cart";
 
 function App() {
   return (
     <MantineProvider withGlobalStyles withNormalizeCSS>
       <Router>
-        <div className="max-w-screen-md max-auto pt-20">
+        <Navbar />
+        <div className="max-auto pt-20">
           <Routes>
-            <Route path='/' element={<Home />}/>
+            <Route path='/' element={<Home />} />
+            <Route path='/market' element={<Market />} />
+            <Route path='/about' element={<AboutUs />} />
+            <Route path='/cart' element={<Cart />}/>
+            <Route path='/checkout' element={<Checkout />}/>
           </Routes>
         </div>
       </Router>
