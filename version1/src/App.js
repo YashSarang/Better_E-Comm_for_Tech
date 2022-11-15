@@ -7,7 +7,6 @@ import Home from './pages/Home';
 function App() {
   return (
     <MantineProvider withGlobalStyles withNormalizeCSS>
-      <App />
       <Router>
         <div className="max-w-screen-md max-auto pt-20">
           <Routes>
