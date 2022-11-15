@@ -7,6 +7,8 @@ const sendMail = require("../utils/sendMail");
 const config = require("../config");
 const getRandomString = require("../utils/getRandomString");
 const authOnlyMiddleware = require("../middlewares/authOnly");
+const getRandomNumber = require("../utils/getRandomNumber");
+
 
 function validatePassword(password) {
 	return !(
@@ -132,11 +134,12 @@ router.post("/generate-otp", async (req, res) => {
 
 	// generate otp
 	try {
-		const otp = getRandomString(config.auth.otp.length);
+		const otp = getRandomNumber(config.auth.otp.length);
 		const newOTP = new OTP({
 			value: otp,
 			user: foundUser,
 		});
+		console.log(newOTP.value)
 		newOTP.save();
 
 		// sending otp

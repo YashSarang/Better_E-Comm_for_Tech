@@ -24,7 +24,7 @@ module.exports = {
 			default: "user",
 		},
 		otp: {
-			length: 16,
+			length: 4,
 			validFor: 1000 * 60 * 30, // 30 min
 		},
 		password: {
