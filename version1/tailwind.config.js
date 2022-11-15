@@ -9,7 +9,7 @@ module.exports = {
           100: '#BA94D1',
           200: '#7F669D',
           300: '#DEBACE',
-          
+          400: 'FBFACD'
         }
       }
     },
