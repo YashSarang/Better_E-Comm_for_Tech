@@ -31,6 +31,16 @@ router.post("/newproduct", authOnlyMiddleware([]), async(req, res) => {
   }
 })
 
+//create new cart
+router.post("/newcart", authOnlyMiddleware([]), async(req, res) => {
+  try {
+    const newCart = new Cart({products: [], user: req.auth.user})
+    return res.send(await newCart.save());
+  } catch (err) {
+    return res.status(500).json({msg: err})
+  }
+})
+
 //add product to cart
 router.post("/add-to-cart", authOnlyMiddleware([]), async(req, res) => {
   const cart = req.body;
@@ -39,7 +49,7 @@ router.post("/add-to-cart", authOnlyMiddleware([]), async(req, res) => {
   if(!cart.product) return res.status(400).json({msg: "Product Not available in body"})
 
   const cartFound = await Cart.findOne({user: req.auth.user})
-  if(!cartFound) return res.status(400).json({msg: "Something went wrong"})
+  if(!cartFound) return res.status(400).json({msg: "Create a cart first"})
   
   cartFound.products.push(cart.product)
 
@@ -50,46 +60,18 @@ router.post("/add-to-cart", authOnlyMiddleware([]), async(req, res) => {
   }
 })
 
-// // get self
-// router.get("/self", authOnlyMiddleware([]), async (req, res) => {
-// 	res.send(req.auth.user);
-// });
+//get all carts
+router.get("/allcarts", authOnlyMiddleware([]), async (req, res) => {
+  const carts = await Cart.find()
+  if(!carts) return res.status(400).json({msg: "Bruh"})
+  res.status(200).json({msg: carts})
+})
 
-// // get user by id
-// router.get("/:id", async (req, res) => {
-// 	const user = await User.findById(req.params.id);
-// 	if (!user) return res.status(404).json({ msg: "user not found" });
-// 	res.json(user);
-// });
-
-// // get user by username
-// router.get("/byusername/:username", async (req, res) => {
-// 	const user = await User.findOne({ username: req.params.username });
-// 	if (!user) return res.status(404).json({ msg: "user not found" });
-// 	res.json(user);
-// });
-
-// // get all users
-// router.get("/", authOnlyMiddleware(["admin"]), async (req, res) => {
-// 	const users = await User.find();
-// 	res.send(filterData(users, req.query));
-// });
-
-// // patch user
-// router.patch("/:id", authOnlyMiddleware(["admin"]), async (req, res) => {
-// 	try {
-// 		const user = await User.findById(req.params.id);
-
-// 		if (!user) return res.status(404).json({ msg: "user not found" });
-
-// 		const props = Object.getOwnPropertyNames(req.body);
-// 		props.forEach((prop) => {
-// 			user[prop] = req.body[prop];
-// 		});
-// 		res.json(await user.save());
-// 	} catch (err) {
-// 		res.status(500).json({ err });
-// 	}
-// });
+//get cart by user
+router.get("/cart-by-user", authOnlyMiddleware([]), async(req, res) => {
+  const cart = await Cart.findOne({user: req.auth.user})
+  if(!cart) return res.status(400).json({msg: "Cart not found"})
+  res.status(200).json({msg: cart})
+})
 
 module.exports = router;
